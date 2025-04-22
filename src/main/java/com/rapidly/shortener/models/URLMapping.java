@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "URL_MAPPINGS")
+@Table(name = "URL_MAPPING")
 public class URLMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

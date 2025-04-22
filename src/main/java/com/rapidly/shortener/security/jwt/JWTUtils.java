@@ -6,14 +6,16 @@ import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import com.rapidly.shortener.service.UserDetailsImpl;
+import com.rapidly.shortener.models.SecurityUser;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 
+@Component
 public class JWTUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -33,9 +35,9 @@ public class JWTUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public String generateToken(UserDetailsImpl userDetails) {
-        String userName = userDetails.getUsername();
-        String roles = userDetails.getAuthorities().stream().map(authority -> authority.getAuthority())
+    public String generateToken(SecurityUser securityUser) {
+        String userName = securityUser.getUsername();
+        String roles = securityUser.getAuthorities().stream().map(authority -> authority.getAuthority())
                 .collect(Collectors.joining(","));
         return Jwts.builder()
                 .subject(userName)

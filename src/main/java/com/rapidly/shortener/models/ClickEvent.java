@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "CLICK_EVENTS")
+@Table(name = "CLICK_EVENT")
 public class ClickEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
