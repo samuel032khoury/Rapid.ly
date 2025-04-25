@@ -21,13 +21,13 @@ public class RedirectController {
 
     @GetMapping("/{shortUrl}")
     public ResponseEntity<Void> redirect(@PathVariable String shortUrl) throws URISyntaxException {
-        UrlMapping urlMapping = urlMappingService.getUrlMappingByShortUrl(shortUrl);
-        if (urlMapping == null) {
+        String originalURL = urlMappingService.getOriginalUrl(shortUrl);
+        if (originalURL == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity
                 .status(302)
-                .location(new URI(urlMapping.getOriginalUrl()))
+                .location(new URI(originalURL))
                 .build();
     }
 }

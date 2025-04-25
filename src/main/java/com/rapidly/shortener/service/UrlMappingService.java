@@ -98,7 +98,18 @@ public class UrlMappingService {
                         Collectors.counting()));
     }
 
-    public UrlMapping getUrlMappingByShortUrl(String shortUrl) {
-        return urlMappingRepository.findByShortUrl(shortUrl);
+    public String getOriginalUrl(String shortUrl) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        if (urlMapping != null) {
+            // side effect: increment click count and save click event
+            urlMapping.setClickCount(urlMapping.getClickCount() + 1);
+            urlMappingRepository.save(urlMapping);
+            ClickEvent clickEvent = new ClickEvent();
+            clickEvent.setUrlMapping(urlMapping);
+            clickEvent.setClickDate(LocalDateTime.now());
+            clickEventRepository.save(clickEvent);
+            return urlMapping.getOriginalUrl();
+        }
+        return null;
     }
 }
