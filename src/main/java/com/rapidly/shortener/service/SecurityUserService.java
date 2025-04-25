@@ -1,6 +1,5 @@
 package com.rapidly.shortener.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -10,10 +9,11 @@ import com.rapidly.shortener.models.User;
 import com.rapidly.shortener.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class SecurityUserService implements UserDetailsService {
-    @Autowired
     UserRepository userRepository;
 
     @Override
