@@ -1,5 +1,7 @@
 package com.rapidly.shortener.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +26,18 @@ public class AuthController {
 
     @PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+        if (userService.userExists(registerRequest.getUsername())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Username already exists"));
+        }
+        if (userService.emailExists(registerRequest.getEmail())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Email already exists"));
+        }
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setEmail(registerRequest.getEmail());
         userService.registerUser(user);
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
     @PostMapping("/public/login")
