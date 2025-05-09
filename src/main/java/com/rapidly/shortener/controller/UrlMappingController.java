@@ -81,4 +81,10 @@ public class UrlMappingController {
         Map<LocalDate, Long> userUrlClickStats = urlMappingService.getTotalClicksByUser(user, start, end);
         return ResponseEntity.ok(userUrlClickStats);
     }
+
+    @GetMapping("/exists/{shortUrl}")
+    public ResponseEntity<?> checkUrlExists(@PathVariable String shortUrl) {
+        boolean exists = urlMappingService.urlExists(shortUrl);
+        return ResponseEntity.ok(Map.of("exists", exists));
+    }
 }

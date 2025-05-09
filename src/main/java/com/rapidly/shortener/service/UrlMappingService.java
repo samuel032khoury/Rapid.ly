@@ -112,4 +112,8 @@ public class UrlMappingService {
         }
         return null;
     }
+
+    public boolean urlExists(String shortUrl) {
+        return urlMappingRepository.existsByShortUrl(shortUrl);
+    }
 }

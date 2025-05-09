@@ -13,4 +13,6 @@ public interface UrlMappingRepository extends JpaRepository<UrlMapping, Long> {
     UrlMapping findByShortUrl(String shortUrl);
 
     List<UrlMapping> findByUser(User user);
+
+    boolean existsByShortUrl(String shortUrl);
 }
