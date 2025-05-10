@@ -23,8 +23,9 @@ public class UserService {
     private AuthenticationManager authenticationManager;
     private JWTUtils jwtUtils;
 
-    public User registerUser(User user) {
-        return userRepository.save(user);
+    public JWTAuthenticationResponse registerUser(User user, String password) {
+        userRepository.save(user);
+        return authenticateUser(user.getUsername(), password);
     }
 
     public JWTAuthenticationResponse authenticateUser(String username, String password) {
